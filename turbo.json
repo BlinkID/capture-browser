@@ -1,0 +1,30 @@
+{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "types/**"],
+      "outputMode": "new-only"
+    },
+    "build:dev": {
+      "dependsOn": ["^build:dev"],
+      "outputs": ["dist/**", "types/**"],
+      "cache": false
+    },
+    "lint": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false,
+      "outputs": []
+    },
+    "watch": {
+      "dependsOn": ["^build:dev"],
+      "cache": false,
+      "persistent": true,
+      "outputs": []
+    }
+    // "deploy": {
+    //   "dependsOn": ["build", "test", "lint"]
+    // }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cmake.sourceDirectory": "${workspaceFolder}/packages/capture-wasm/binding/Source",
+  "cmake.configureOnEdit": false,
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+  "cmake.configureOnOpen": false,
+  "clangd.arguments": [
+    "-header-insertion=never",
+    "-query-driver=/Users/ivan/.conan/data/emsdk_installer/3.1.32/microblink/stable/package/3c9d8fb1b383ce27cf8b0942dcbdbb6add8cbee9/upstream/emscripten/em++"
+  ],
+  "svg.preview.background": "dark-transparent",
+  "cSpell.words": [
+    "acab",
+    "Baltazar",
+    "clsx",
+    "comlink",
+    "deepmerge",
+    "ecsstatic",
+    "Embind",
+    "Emscripten",
+    "kobalte",
+    "linkcode",
+    "motionone",
+    "proxified",
+    "pthreads",
+    "rvfc",
+    "stringifying",
+    "Tbrand",
+    "tsbuildinfo",
+    "userid",
+    "wessberg",
+    "zustand"
+  ]
+}

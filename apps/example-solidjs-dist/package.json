@@ -1,0 +1,50 @@
+{
+  "name": "example-solidjs-dist",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "This example runs uses the @microblink/capture bundled module",
+  "scripts": {
+    "clean": "rimraf dist public .turbo types tsconfig.tsbuildinfo",
+    "dev": "vite",
+    "watch": "vite build --watch --mode development",
+    "build": "vite build",
+    "build:js-dev": "vite build --mode development",
+    "preview": "vite preview",
+    "make-certs": "mkcert-cli -y --outDir certs",
+    "serve": "pnpm make-certs && serve --ssl-cert ./certs/dev.cert --ssl-key ./certs/dev.key",
+    "lint:eslint": "eslint ./src --max-warnings 0",
+    "lint:types": "tsc --emitDeclarationOnly false --noEmit",
+    "lint": "concurrently pnpm:lint:types pnpm:lint:eslint"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@acab/ecsstatic": "^0.7.1",
+    "@mb/utils": "workspace:*",
+    "@styled/typescript-styled-plugin": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-define-config": "^1.21.0",
+    "eslint-plugin-solid": "^0.12.1",
+    "mkcert-cli": "^1.5.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.1",
+    "sass": "^1.64.0",
+    "serve": "^14.2.0",
+    "tsc-files": "^1.1.4",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.6",
+    "vite-plugin-full-reload": "^1.0.5",
+    "vite-plugin-mkcert": "^1.16.0",
+    "vite-plugin-solid": "^2.7.0",
+    "vite-plugin-solid-svg": "^0.6.4",
+    "zx": "^7.2.3"
+  },
+  "dependencies": {
+    "@microblink/capture": "workspace:^",
+    "solid-js": "^1.7.8"
+  }
+}

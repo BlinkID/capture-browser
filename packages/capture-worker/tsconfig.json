@@ -1,0 +1,12 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    // Override for worker/es2015
+    "lib": ["ES2015", "WebWorker"],
+    "module": "ES2015",
+    "emitDeclarationOnly": true,
+    "declarationDir": "types",
+    "rootDir": "src"
+  },
+  "include": ["src"]
+}

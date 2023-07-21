@@ -1,0 +1,22 @@
+{
+  "name": "capture-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "syncpack": "^10.7.3",
+    "turbo": "^1.10.8"
+  },
+  "scripts": {
+    "lint": "turbo lint --no-daemon",
+    "build": "turbo build --no-daemon",
+    "clean": "turbo clean --no-daemon",
+    "watch": "turbo watch --filter='./packages/*' --no-daemon",
+    "prepare": "husky install",
+    "upgrade-packages": "pnpm dlx npm-check-updates -ui -ws --root",
+    "create-release": "pnpm --filter 'release' create-release"
+  }
+}
