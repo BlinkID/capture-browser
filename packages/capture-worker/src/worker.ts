@@ -36,13 +36,12 @@ async function loadWasm() {
   // TODO: Error handling
   const wasmVariant = await detectWasmFeatures();
   console.log(`Requesting ${wasmVariant} Wasm build`);
-  // const wasmVariant = "advanced-threads";
-  // const wasmVariant = "advanced";
 
-  const mainScriptUrl = new URL(
-    `resources/${wasmVariant}/capture-wasm.js`,
-    self.location.origin,
-  );
+  const workerPath = self.location.href;
+
+  const trimmedPath = workerPath.substring(0, workerPath.lastIndexOf("/"));
+
+  const mainScriptUrl = `${trimmedPath}/${wasmVariant}/capture-wasm.js`;
 
   try {
     importScripts(mainScriptUrl);
@@ -55,10 +54,8 @@ async function loadWasm() {
    */
   wasmModule = await self.createModule({
     locateFile: (path) => {
-      return new URL(
-        `resources/${wasmVariant}/` + path,
-        self.location.origin,
-      ).toString();
+      const filePath = `${trimmedPath}/${wasmVariant}/${path}`;
+      return filePath;
     },
     // TODO: pthreads build breaks without this:
     // "Failed to execute 'createObjectURL' on 'URL': Overload resolution failed."

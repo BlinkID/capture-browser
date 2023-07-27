@@ -38,7 +38,6 @@
     "./style.css": "./dist/style.css",
     "./package.json": "./package.json"
   },
-  "private": true,
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.7.0",
     "@mb/utils": "workspace:^",

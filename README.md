@@ -1,5 +1,3 @@
-![logo-microblink](https://github.com/BlinkID/capture-browser/assets/2827047/ab8ab61b-ac82-4d84-8013-f6f2efe5bec5)
-
 # _Capture_ SDK for browsers
 
 The Capture Browser SDK gives you the ability to auto-capture high-quality images of identity documents in a user-friendly way. The SDK provides you with a rectified image of the document, ensuring a high success rate in extracting document text or verifying the document's validity.

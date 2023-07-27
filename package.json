@@ -17,6 +17,6 @@
     "watch": "turbo watch --filter='./packages/*' --no-daemon",
     "prepare": "husky install",
     "upgrade-packages": "pnpm dlx npm-check-updates -ui -ws --root",
-    "create-release": "pnpm --filter 'release' create-release"
+    "create-release": "pnpm run clean && pnpm run build && pnpm --filter 'release' create-release"
   }
 }
