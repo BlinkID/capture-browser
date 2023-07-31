@@ -5,6 +5,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "syncpack": "^10.7.3",

@@ -65,6 +65,8 @@ type CreateCaptureUiSettings = {
   uiSettings?: UiSettings;
 };
 
+export const MOUNT_POINT_ID = "mount-point";
+
 /** Creates the capture UI and loads the SDK */
 export function createCaptureUi(settings: CreateCaptureUiSettings) {
   return new Promise<CaptureComponent>((resolve) => {
@@ -81,13 +83,25 @@ export function createCaptureUi(settings: CreateCaptureUiSettings) {
       dismountFn: dismount,
     };
 
-    // we can't clone DOM nodes, need a reference
-    const target = settings.uiSettings?.target ?? document.body;
+    // We create a dummy element that will be the target of the `dismount()`
+    // function if no target is provided. If we simply provide `document.body`,
+    // `dismount()` will clear the entire document body:
+    //
+    // https://www.solidjs.com/docs/latest/api#render
+    //
+    // This is a DX optimization so that users don't need to provide their own
+    // dummy mount points if they are using a portalled component anyway
+    const target = settings.uiSettings?.target ?? document.createElement("div");
 
-    const mergedDefaults: SolidStore = deepmerge(initialState, {
-      uiSettings: settings,
-    });
+    if (!target.isConnected && target instanceof HTMLDivElement) {
+      target.setAttribute("id", MOUNT_POINT_ID);
+      document.body.appendChild(target);
+    }
 
+    const mergedDefaults: SolidStore = deepmerge(initialState, settings);
+
+    // we can't clone DOM nodes, so we add it to `mergedDefaults` after
+    // `deepmerge`
     mergedDefaults.uiSettings.target = target;
 
     const exposeApiOnLoad = (exposedApi: ExposedComponentApi) => {

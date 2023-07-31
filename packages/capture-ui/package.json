@@ -1,6 +1,7 @@
 {
   "name": "capture-ui",
-  "version": "0.9.2",
+  "version": "1.0.1",
+  "private": true,
   "type": "module",
   "description": "",
   "scripts": {
@@ -29,7 +30,7 @@
       "import": "./dist/capture-ui.js",
       "require": "./dist/capture-ui.umd.cjs"
     },
-    "./dist/*": "./dist/*",
+    "./style.css": "./dist/style.css",
     "./package.json": "./package.json"
   },
   "license": "MIT",

@@ -13,7 +13,7 @@
 
 import { AnalyzerResult, CaptureSdkSettings } from "capture-main";
 import { CaptureComponent, createCaptureUi } from "capture-ui";
-import "capture-ui/dist/style.css";
+import "capture-ui/style.css";
 import {
   Component,
   Match,
@@ -51,6 +51,7 @@ export const App: Component = () => {
     const captureComponent = await createCaptureUi({
       sdkSettings,
       uiSettings: {
+        showTutorial: false,
         // target: mountPoint,
       },
     });
@@ -107,8 +108,9 @@ export const App: Component = () => {
 
   return (
     <div>
-      <div ref={mountPoint!} />
       <p>This content is always visible to test portalling.</p>
+
+      <div ref={mountPoint!} />
 
       {/* TODO: localize these */}
       <Switch>

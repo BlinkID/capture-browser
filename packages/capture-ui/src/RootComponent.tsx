@@ -18,7 +18,7 @@ import { CaptureScreen, CaptureScreenPortalled } from "./CaptureScreen";
 import { ErrorAlert } from "./ErrorAlert";
 import { useLocalization } from "./LocalizationContext";
 import { useSolidStore } from "./StoreContext";
-import { ExposedComponentApi } from "./createCaptureUi";
+import { ExposedComponentApi, MOUNT_POINT_ID } from "./createCaptureUi";
 import "./root-styles.scss";
 
 const RootComponent: Component<{
@@ -48,7 +48,7 @@ const RootComponent: Component<{
       <Show when={solidStore.captureSdk}>
         <Dynamic
           component={
-            solidStore.uiSettings.target === document.body
+            (solidStore.uiSettings.target as HTMLElement).id === MOUNT_POINT_ID
               ? CaptureScreenPortalled
               : CaptureScreen
           }
