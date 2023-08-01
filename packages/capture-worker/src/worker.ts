@@ -27,9 +27,6 @@ let analyzer: Analyzer;
 // TODO: Need to hash filenames in /resources/ for cache busting
 
 /**
- * @param licenceKey The SDK licence key
- * @param userId A random ID tied to the user session
- * @param settings `AnalyzerSettings` you want to override
  * @returns a Comlink-proxified instance of the Wasm module
  */
 async function loadWasm() {
@@ -96,6 +93,9 @@ function createAnalyzer() {
   return proxy(analyzer);
 }
 
+/**
+ * Separate function so that we can clear the `imageData` buffer
+ */
 function analyze(image: Parameters<Analyzer["analyze"]>[0]) {
   // TODO: check what happens if it gets deleted
 
