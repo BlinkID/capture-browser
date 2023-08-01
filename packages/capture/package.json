@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://microblink.com/",
   "repository": "github:BlinkID/capture-browser",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "rollup": "api-extractor run --local --verbose",
     "build:js": "vite build",
@@ -21,6 +21,10 @@
     "dist",
     "types"
   ],
+  "publishConfig": {
+    "directory": "npm-publish",
+    "linkDirectory": false
+  },
   "main": "./dist/capture.umd.cjs",
   "module": "./dist/capture.js",
   "types": "./types/index.d.ts",

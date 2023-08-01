@@ -1,5 +1,11 @@
 # @microblink/capture
 
+## 1.0.4
+
+### Patch Changes
+
+- Fixes a critical issue where the published npm package was dependent on private packages
+
 ## 1.0.3
 
 ### Patch Changes
