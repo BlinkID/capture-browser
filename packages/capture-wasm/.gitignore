@@ -1,3 +1,4 @@
 # project-specific
 build
 types
+!dist

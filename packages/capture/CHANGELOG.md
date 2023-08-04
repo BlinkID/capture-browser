@@ -26,9 +26,8 @@
 
 ### Patch Changes
 
-- Fixed an issue where React refs weren't a valid target for `UiSettings.target`.
-  - Updated JSdoc for `createCaptureUI`
-  - Updated React example to use `UiSettings.target`
+- Updated dependencies [2412e97]
+  - capture-ui@1.0.6
 
 ## 1.0.5
 
