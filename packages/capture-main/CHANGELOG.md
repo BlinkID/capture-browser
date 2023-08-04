@@ -1,4 +1,4 @@
-# capture-ui
+# capture-main
 
 ## 1.0.7
 
@@ -19,19 +19,4 @@
   same domain.
 
 - Updated dependencies [15bde2b]
-  - capture-main@1.0.7
-
-## 1.0.6
-
-### Patch Changes
-
-- 2412e97: - Fixed an issue where React refs weren't a valid target for `UiSettings.target`.
-  - Updated JSdoc for `createCaptureUI`
-  - Updated React example to use `UiSettings.target`
-
-## 1.0.1
-
-### Patch Changes
-
-- - Fixed incorrect initialization of user-provided UI settings
-  - Fixed a bug where calling the dismount function without a target DOM node would clear the document body
+  - capture-worker@1.0.7

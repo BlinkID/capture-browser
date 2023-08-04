@@ -1,6 +1,6 @@
 {
   "name": "capture-main",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "private": true,
   "description": "",
   "scripts": {
@@ -39,10 +39,10 @@
   "dependencies": {
     "@mb/utils": "workspace:*",
     "@wessberg/connection-observer": "^1.0.5",
-    "comlink": "^4.4.1",
-    "common-tags": "^1.8.2",
     "capture-wasm": "workspace:*",
     "capture-worker": "workspace:*",
+    "comlink": "^4.4.1",
+    "common-tags": "^1.8.2",
     "nanoid": "^4.0.2",
     "rvfc-polyfill": "^1.0.6",
     "solid-zustand": "^1.7.0",

@@ -1,6 +1,6 @@
 {
   "name": "capture-worker",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "private": true,
   "description": "",
   "scripts": {
@@ -31,8 +31,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "comlink": "^4.4.1",
     "capture-wasm": "workspace:*",
+    "comlink": "^4.4.1",
     "wasm-feature-detect": "^1.5.1"
   },
   "devDependencies": {

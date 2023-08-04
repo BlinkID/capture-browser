@@ -463,6 +463,9 @@ importers:
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
+      is-plain-object:
+        specifier: ^5.0.0
+        version: 5.0.0
       just-extend:
         specifier: ^6.2.0
         version: 6.2.0
@@ -4783,7 +4786,6 @@ packages:
   /is-plain-object@5.0.0:
     resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /is-port-reachable@4.0.0:
     resolution: {integrity: sha512-9UoipoxYmSk6Xy7QFgRv2HDyaysmgSG75TFQs6S+3pDM7ZhKTF/bskZV+0UlABHzKjNVhPjYCLfeZUEg1wXxig==}

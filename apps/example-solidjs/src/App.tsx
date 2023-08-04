@@ -36,6 +36,9 @@ export const App: Component = () => {
 
   const sdkSettings: CaptureSdkSettings = {
     licenseKey: import.meta.env.VITE_LICENCE_KEY,
+    // Used for CORS testing:
+    // resourceUrl: "https://localhost:3000",
+    // resourceUrl: "https://192.168.1.230:3000",
     callbacks: {
       // onFrameAnalysis: () => void captureComponent()?.captureSdk?.resetAnalyzer(),
       onCaptureResult: (result) => {

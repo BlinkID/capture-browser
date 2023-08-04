@@ -601,7 +601,7 @@ export async function createCaptureSdk(settings: CaptureSdkSettings) {
       return captureSdk;
     }
 
-    remoteWorker = createProxyWorker(settings.resourceUrl);
+    remoteWorker = await createProxyWorker(settings.resourceUrl);
 
     const userId = getUserId();
 

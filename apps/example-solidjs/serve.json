@@ -20,6 +20,10 @@
         {
           "key": "Cache-Control",
           "value": "max-age=300"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
         }
       ]
     }

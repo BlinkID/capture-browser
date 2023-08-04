@@ -10,6 +10,7 @@
  */
 
 import { MountableElement, render } from "solid-js/web";
+import { isPlainObject } from "is-plain-object";
 
 import { CaptureSdk, CaptureSdkSettings } from "capture-main";
 import { SetStoreFunction } from "solid-js/store";
@@ -34,32 +35,6 @@ export type ExposedComponentApi = {
   updateLocalization: SetStoreFunction<LocalizationStrings>;
 };
 
-/**
- * Loads the UI component along with the Capture SDK.
- *
- * @param target The DOM node you want to render the Capture UI component to
- * @param sdkSettings Settings for the Capture SDK
- * @param uiSettings Settings for the Capture SDK UI component
- * @returns An object with methods for controlling the Capture SDK and the UI
- * component
- *
- * @example
- * ```typescript
- * // Load the UI and the SDK
- * const captureComponent = await createCaptureUi({
- *   sdkSettings: {
- *     licenseKey: "YOUR_LICENCE_KEY",
- *     callbacks: {
- *       onCaptureResult: (result) => console.log(result),
- *     },
- *   },
- * });
- *
- * // Will dismount and clean up
- * captureComponent.dismount()
- * ```
- */
-
 type CreateCaptureUiSettings = {
   sdkSettings: CaptureSdkSettings;
   uiSettings?: UiSettings;
@@ -67,7 +42,13 @@ type CreateCaptureUiSettings = {
 
 export const MOUNT_POINT_ID = "mount-point";
 
-/** Creates the capture UI and loads the SDK */
+/**
+ * Creates the capture UI and loads the SDK
+ *
+ * @param settings {@linkcode CreateCaptureUiSettings}
+ * @returns An object with methods for controlling the Capture SDK and the UI
+ * component
+ */
 export function createCaptureUi(settings: CreateCaptureUiSettings) {
   return new Promise<CaptureComponent>((resolve) => {
     const dismount = () => dismountRef();
@@ -98,7 +79,9 @@ export function createCaptureUi(settings: CreateCaptureUiSettings) {
       document.body.appendChild(target);
     }
 
-    const mergedDefaults: SolidStore = deepmerge(initialState, settings);
+    const mergedDefaults: SolidStore = deepmerge(initialState, settings, {
+      isMergeableObject: isPlainObject,
+    });
 
     // we can't clone DOM nodes, so we add it to `mergedDefaults` after
     // `deepmerge`

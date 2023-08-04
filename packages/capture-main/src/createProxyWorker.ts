@@ -11,21 +11,26 @@
 
 import { ProxyWorker } from "capture-worker";
 import { wrap } from "comlink";
+import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
 
 /**
  * Creates a Comlink-proxied Web Worker
  *
- * @param resourcesUrl the location of the resources directory, default is `window.location.href`
+ * @param resourcesLocation the location of the resources directory, default is `window.location.href`
  * @returns a Comlink-proxied instance of the Web Worker
  */
-export const createProxyWorker = (
-  resourcesUrl: string = window.location.href,
+export const createProxyWorker = async (
+  resourcesLocation: string = window.location.href,
 ) => {
-  const worker = new Worker(resourcesUrl + "/resources/capture-worker.js");
+  const workerUrl = await getCrossOriginWorkerURL(
+    resourcesLocation + "/resources/capture-worker.js",
+  );
+  const worker = new Worker(workerUrl);
   // TODO: find a way to handle generic worker loading failures (CSP, network requests, etc)
   worker.onerror = (e) => console.error(e);
 
   const proxyWorker = wrap<ProxyWorker>(worker);
+  await proxyWorker.setResourceUrl(resourcesLocation + "/resources");
 
   return proxyWorker;
 };

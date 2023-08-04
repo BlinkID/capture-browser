@@ -13,6 +13,7 @@
 import { expose, finalizer, proxy } from "comlink";
 import { Analyzer, CaptureWasmModule } from "capture-wasm";
 import { detectWasmFeatures } from "./wasm-feature-detect";
+import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
 
 declare global {
   interface WorkerGlobalScope {
@@ -23,6 +24,10 @@ declare global {
 // Lift it to global scope and act like it exists, just in case
 let wasmModule: CaptureWasmModule;
 let analyzer: Analyzer;
+// we can't get the location if the worker is loaded through a `blob:`
+let resourceUrl: string;
+
+console.log("Worker loaded");
 
 // TODO: Need to hash filenames in /resources/ for cache busting
 
@@ -34,14 +39,16 @@ async function loadWasm() {
   const wasmVariant = await detectWasmFeatures();
   console.log(`Requesting ${wasmVariant} Wasm build`);
 
-  const workerPath = self.location.href;
+  const variantUrl = `${resourceUrl}/${wasmVariant}`;
 
-  const trimmedPath = workerPath.substring(0, workerPath.lastIndexOf("/"));
+  const loaderUrl = `${variantUrl}/capture-wasm.js`;
+  const workerUrl = `${variantUrl}/capture-wasm.worker.js`;
 
-  const mainScriptUrl = `${trimmedPath}/${wasmVariant}/capture-wasm.js`;
+  const crossOriginLoaderUrl = await getCrossOriginWorkerURL(loaderUrl);
+  const crossOriginWorkerUrl = await getCrossOriginWorkerURL(workerUrl);
 
   try {
-    importScripts(mainScriptUrl);
+    importScripts(crossOriginLoaderUrl);
   } catch (error) {
     console.error("loading scripts failed", error);
   }
@@ -51,12 +58,21 @@ async function loadWasm() {
    */
   wasmModule = await self.createModule({
     locateFile: (path) => {
-      const filePath = `${trimmedPath}/${wasmVariant}/${path}`;
+      let filePath: string;
+
+      // Since `locateFile` is synchronous, we can't use
+      // `getCrossOriginWorkerURL` here. Instead, we make an exception for the
+      // worker, as we know its name in advance
+      if (path.includes(".worker.js")) {
+        filePath = crossOriginWorkerUrl;
+      } else {
+        filePath = `${resourceUrl}/${wasmVariant}/${path}`;
+      }
       return filePath;
     },
     // TODO: pthreads build breaks without this:
     // "Failed to execute 'createObjectURL' on 'URL': Overload resolution failed."
-    mainScriptUrlOrBlob: mainScriptUrl.toString(),
+    mainScriptUrlOrBlob: crossOriginLoaderUrl.toString(),
     setStatus: (text) => {
       // console.log(text, convertEmscriptenStatusToProgress(text));
     },
@@ -116,6 +132,9 @@ export const proxyWorker = {
   loadWasm,
   analyze,
   terminate: () => self.close(),
+  setResourceUrl: (url: string) => {
+    resourceUrl = url;
+  },
   // TODO: find out when this gets called - seems random
   [finalizer]: () => {
     console.log("Comlink.finalizer called on proxyWorker");

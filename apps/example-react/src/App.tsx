@@ -20,18 +20,25 @@ import {
 import "@microblink/capture/style.css";
 
 function App() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
   const [result, setResult] = useState<AnalyzerResult>();
   const captureComponent = useRef<CaptureComponent>();
   const initialized = useRef(false);
 
   const loadSDK = async () => {
+    if (!divRef.current) {
+      return;
+    }
+
     captureComponent.current = await createCaptureUi({
       sdkSettings: {
         callbacks: {
           onCaptureResult: (result) => setResult(result),
         },
         licenseKey: import.meta.env.VITE_LICENCE_KEY,
+      },
+      uiSettings: {
+        target: divRef.current,
       },
     });
   };
@@ -57,7 +64,7 @@ function App() {
 
   return (
     <>
-      <video src="" ref={videoRef}></video>
+      <div ref={divRef}></div>
     </>
   );
 }

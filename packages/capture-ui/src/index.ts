@@ -9,4 +9,6 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-export * from "./createCaptureUi";
+export { createCaptureUi } from "./createCaptureUi";
+
+export type { ExposedComponentApi, CaptureComponent } from "./createCaptureUi";

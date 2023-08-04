@@ -1,5 +1,18 @@
 # example-solidjs-dist
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [15bde2b]
+  - @microblink/capture@1.0.7
+
+## 0.0.5
+
+### Patch Changes
+
+- @microblink/capture@1.0.6
+
 ## 0.0.4
 
 ### Patch Changes

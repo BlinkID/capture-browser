@@ -3,7 +3,7 @@
   "description": "Wasm prebuilts + TS types",
   "homepage": "https://microblink.com/",
   "repository": "github:BlinkID/capture-browser",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "type": "module",
   "files": [
     "dist",

@@ -28,7 +28,7 @@ import * as wasmTypes from "capture-wasm";
 // this triggers reloading
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import workerConstructor from "capture-worker/dist/capture-worker.js";
+import workerConstructor from "capture-worker/dist/capture-worker.js?worker";
 // we use a falsy check to remove this code during build
 if (false as true) {
   console.log(workerConstructor);
