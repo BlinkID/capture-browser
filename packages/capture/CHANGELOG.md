@@ -1,5 +1,13 @@
 # @microblink/capture
 
+## 1.0.8
+
+### Patch Changes
+
+- Bugfix: prevent loading cross-origin worker on non-threaded builds
+  - capture-main@1.0.8
+  - capture-ui@1.0.8
+
 ## 1.0.7
 
 ### Patch Changes

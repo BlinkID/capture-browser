@@ -77,7 +77,7 @@ var createModule = (() => {
             for (var k = 0; k < q.length; ++k)
               m.prototype.Cb[q[k].filename].onload();
             h.removeRunDependency(
-              "datafile_/Users/ivan/Dev/imagecapture-browser/packages/capture-wasm/dist/advanced/capture-wasm.data",
+              "datafile_/Users/ivan/Dev/imagecapture-browser.worktrees/master/packages/capture-wasm/dist/advanced/capture-wasm.data",
             );
           }
           h.FS_createPath("/", "microblink", !0, !0);
@@ -105,11 +105,11 @@ var createModule = (() => {
               r[p].filename,
             );
           h.addRunDependency(
-            "datafile_/Users/ivan/Dev/imagecapture-browser/packages/capture-wasm/dist/advanced/capture-wasm.data",
+            "datafile_/Users/ivan/Dev/imagecapture-browser.worktrees/master/packages/capture-wasm/dist/advanced/capture-wasm.data",
           );
           h.Qb || (h.Qb = {});
           h.Qb[
-            "/Users/ivan/Dev/imagecapture-browser/packages/capture-wasm/dist/advanced/capture-wasm.data"
+            "/Users/ivan/Dev/imagecapture-browser.worktrees/master/packages/capture-wasm/dist/advanced/capture-wasm.data"
           ] = { Kc: !1 };
           l ? (n(l), (l = null)) : (g = n);
         }

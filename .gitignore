@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,conan,cmake,c++,node
 
 .turbo
+.venv
 
 ### C++ ###
 # Prerequisites

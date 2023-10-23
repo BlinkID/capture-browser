@@ -1,5 +1,11 @@
 # capture-worker
 
+## 1.0.8
+
+### Patch Changes
+
+- Bugfix: prevent loading cross-origin worker on non-threaded builds
+
 ## 1.0.7
 
 ### Patch Changes

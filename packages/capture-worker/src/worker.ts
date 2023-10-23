@@ -10,10 +10,10 @@
  */
 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { expose, finalizer, proxy } from "comlink";
 import { Analyzer, CaptureWasmModule } from "capture-wasm";
-import { detectWasmFeatures } from "./wasm-feature-detect";
+import { expose, finalizer, proxy } from "comlink";
 import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
+import { detectWasmFeatures } from "./wasm-feature-detect";
 
 declare global {
   interface WorkerGlobalScope {
@@ -37,6 +37,7 @@ console.log("Worker loaded");
 async function loadWasm() {
   // TODO: Error handling
   const wasmVariant = await detectWasmFeatures();
+
   console.log(`Requesting ${wasmVariant} Wasm build`);
 
   const variantUrl = `${resourceUrl}/${wasmVariant}`;
@@ -44,8 +45,13 @@ async function loadWasm() {
   const loaderUrl = `${variantUrl}/capture-wasm.js`;
   const workerUrl = `${variantUrl}/capture-wasm.worker.js`;
 
+  let crossOriginWorkerUrl: string;
+
   const crossOriginLoaderUrl = await getCrossOriginWorkerURL(loaderUrl);
-  const crossOriginWorkerUrl = await getCrossOriginWorkerURL(workerUrl);
+
+  if (wasmVariant === "advanced-threads") {
+    crossOriginWorkerUrl = await getCrossOriginWorkerURL(workerUrl);
+  }
 
   try {
     importScripts(crossOriginLoaderUrl);

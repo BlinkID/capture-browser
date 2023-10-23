@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://microblink.com/",
   "repository": "github:BlinkID/capture-browser",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "scripts": {
     "rollup": "api-extractor run --local --verbose",
     "build:js": "vite build",

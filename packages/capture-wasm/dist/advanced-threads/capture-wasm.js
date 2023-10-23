@@ -105,7 +105,7 @@ var createModule = (() => {
             for (var k = 0; k < r.length; ++k)
               m.prototype.bc[r[k].filename].onload();
             D.removeRunDependency(
-              "datafile_/Users/ivan/Dev/imagecapture-browser/packages/capture-wasm/dist/advanced-threads/capture-wasm.data",
+              "datafile_/Users/ivan/Dev/imagecapture-browser.worktrees/master/packages/capture-wasm/dist/advanced-threads/capture-wasm.data",
             );
           }
           D.FS_createPath("/", "microblink", !0, !0);
@@ -133,11 +133,11 @@ var createModule = (() => {
               q[p].filename,
             );
           D.addRunDependency(
-            "datafile_/Users/ivan/Dev/imagecapture-browser/packages/capture-wasm/dist/advanced-threads/capture-wasm.data",
+            "datafile_/Users/ivan/Dev/imagecapture-browser.worktrees/master/packages/capture-wasm/dist/advanced-threads/capture-wasm.data",
           );
           D.sc || (D.sc = {});
           D.sc[
-            "/Users/ivan/Dev/imagecapture-browser/packages/capture-wasm/dist/advanced-threads/capture-wasm.data"
+            "/Users/ivan/Dev/imagecapture-browser.worktrees/master/packages/capture-wasm/dist/advanced-threads/capture-wasm.data"
           ] = { Cd: !1 };
           l ? (n(l), (l = null)) : (h = n);
         }

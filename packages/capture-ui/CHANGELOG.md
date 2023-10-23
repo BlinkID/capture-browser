@@ -1,5 +1,11 @@
 # capture-ui
 
+## 1.0.8
+
+### Patch Changes
+
+- capture-main@1.0.8
+
 ## 1.0.7
 
 ### Patch Changes

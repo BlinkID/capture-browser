@@ -1,5 +1,12 @@
 # example-solidjs
 
+## 0.0.4
+
+### Patch Changes
+
+- capture-main@1.0.8
+- capture-ui@1.0.8
+
 ## 0.0.3
 
 ### Patch Changes

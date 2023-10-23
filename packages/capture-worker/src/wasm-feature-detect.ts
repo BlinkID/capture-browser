@@ -46,7 +46,7 @@ export default async function checkThreadsSupport(): Promise<boolean> {
   return "Worker" in self;
 }
 
-type WasmVariant = "basic" | "advanced" | "advanced-threads";
+export type WasmVariant = "basic" | "advanced" | "advanced-threads";
 
 export async function detectWasmFeatures(): Promise<WasmVariant> {
   const basicSet = [
