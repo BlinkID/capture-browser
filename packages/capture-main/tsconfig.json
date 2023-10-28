@@ -3,7 +3,18 @@
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "declarationDir": "types",
-    "rootDir": "src"
+    "rootDir": "src",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "types": ["vite/client", "vite-plugin-solid-svg/types"],
+    "plugins": [
+      {
+        "name": "@styled/typescript-styled-plugin",
+        "lint": {
+          "validProperties": ["overscroll-behavior", "text-wrap"]
+        }
+      }
+    ]
   },
   "include": ["src"]
 }

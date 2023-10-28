@@ -10,7 +10,7 @@
  */
 
 /**
- * The result returned from `Analyzer.analyze`
+ * The result returned from `Analyzer.getResult`
  */
 export type AnalyzerResult = {
   /** Result of the first side capture */
@@ -20,16 +20,16 @@ export type AnalyzerResult = {
   /** Document group */
   documentGroup: DocumentGroup;
   /** Completeness status of the capture process */
-  completnessStatus: CompletnessStatus;
+  completenessStatus: CompletenessStatus;
 };
 
 /**
- * Result of side capture
+ * Capture result of a single document side.
  */
 export type SideCaptureResult = {
   /**
-   * Original image of the captured document, untransformed, as it was used in
-   * analysis.
+   * Original image of the captured document side, untransformed, as it was used
+   * in the analysis.
    */
   imageResult: ImageData;
 
@@ -42,22 +42,28 @@ export type SideCaptureResult = {
   /**
    * Document side classification.
    *
-   *  If side classification was uncertain, `"unknown"` is returned.
+   * If the side classification was uncertain, `"unknown"` is returned.
    */
   side: CaptureSide;
+
+  /**
+   * If the document is captured at lower dpi than `minimumDocumentDpi` from settings,
+   * flag is set to `true`.
+   */
+  dpiAdjusted: boolean;
 };
 
 /**
  * Document side classification.
  *
- *  If side classification was uncertain, `"unknown"` is returned.
+ * If side classification was uncertain, `"unknown"` is returned.
  */
 export type CaptureSide = "unknown" | "front" | "back";
 
 /**
- * Completeness status of capture process
+ * Completeness status of capture process.
  */
-export type CompletnessStatus = "empty" | "one-side-missing" | "complete";
+export type CompletenessStatus = "empty" | "one-side-missing" | "complete";
 
 /**
  * Document group classification.

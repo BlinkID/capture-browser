@@ -9,29 +9,48 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-import { EmbindObject } from "./EmbindObject";
-import { FrameAnalysisResult } from "./FrameAnalysisResult";
 import { AnalyzerResult } from "./AnalyzerResult";
 import { AnalyzerSettings } from "./AnalyzerSettings";
+import { EmbindObject } from "./EmbindObject";
+import { FrameAnalysisError, FrameAnalysisResult } from "./FrameAnalysisResult";
 
 export declare class Analyzer extends EmbindObject {
   /**
-   * Performs frame analysis and returns `FrameAnalysisResult`
+   * Analyses a single image and returns either `FrameAnalysisResult` or `FrameAnalysisError`.
+   * Each captured image is stored as a candidate for the best frame.
    */
-  analyze(image: ImageData): FrameAnalysisResult;
-  getResult: () => AnalyzerResult;
-  getSettings: () => AnalyzerSettings;
-  updateSettings: (settings: AnalyzerSettings) => void;
-  /** Returns analyzer to initial state */
-  reset: () => void;
+  analyze(image: ImageData): FrameAnalysisResult | FrameAnalysisError;
+
   /**
-   * Method used to finish capture of current side when `Analyzer.analyze()`
-   * didn't return {@linkcode FrameAnalysisResult#frameAnalysisStatus} state.
+   * Returns the analyzer result.
+   */
+  getResult: () => AnalyzerResult;
+
+  /**
+   * Returns the analyzer settings.
+   */
+  getSettings: () => AnalyzerSettings;
+
+  /**
+   * Updates the analyzer settings.
+   */
+  updateSettings: (settings: AnalyzerSettings) => void;
+
+  /** Resets the currently active capturing process. */
+  reset: () => void;
+
+  /**
+   * Attempts to finish the side capture early.
    *
-   * Method tries to fill `SideCaptureResult` with current best frame, if there
-   * isn't one method returns `false` and result is not changed, otherwise
-   * `true` is returned and current best frame is filled in current
-   * `SideCaptureResult`.
+   * If there aren't enough captured frames, the method returns `false` and
+   * further `Analyzer.analyze` calls are required.
+   *
+   * Otherwise, the method returns `true` and the `Analyzer` uses the best frame
+   * candidate to finish the side capture and either finish the capture process
+   * or continue to the next side.
+   *
+   * @returns `true` if there are enough captured frames to finish the capture
+   * process and `getResult` can be called, `false` otherwise.
    */
   finishSideCapture: () => boolean;
 }

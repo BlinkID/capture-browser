@@ -1,11 +1,11 @@
 # example-vanilla-ts-headless
 
-## 0.0.7
+## 1.1.0
 
 ### Patch Changes
 
 - Updated dependencies
-  - @microblink/capture@1.0.8
+  - @microblink/capture@1.1.0
 
 ## 0.0.6
 

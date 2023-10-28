@@ -1,24 +1,24 @@
 {
   "name": "example-vanilla-ts-headless",
   "private": true,
-  "version": "0.0.7",
-  "type": "module",
+  "version": "1.1.0",
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "clean": "rimraf dist public .turbo types"
+    "clean": "rimraf dist public .turbo types",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "dependencies": {
+    "@microblink/capture": "workspace:*"
   },
   "devDependencies": {
     "@mb/utils": "workspace:*",
-    "rimraf": "^5.0.1",
+    "rimraf": "^5.0.5",
     "tsconfig": "workspace:*",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.6",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
     "vite-plugin-mkcert": "^1.16.0",
     "zx": "^7.2.3"
-  },
-  "dependencies": {
-    "@microblink/capture": "workspace:^"
   }
 }

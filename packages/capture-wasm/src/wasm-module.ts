@@ -27,7 +27,9 @@ export type CaptureBindings = {
     userId: string,
     allowHelloMessage: boolean,
   ) => LicenseUnlockResult;
+
   Analyzer: typeof Analyzer;
+
   submitServerPermission: (
     serverPermission: StringifiedBaltazarResponse,
   ) => ServerPermissionSubmitResult;

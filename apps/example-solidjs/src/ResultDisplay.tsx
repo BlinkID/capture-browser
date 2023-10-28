@@ -9,7 +9,7 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-import { AnalyzerResult } from "capture-main";
+import { AnalyzerResult } from "@microblink/capture";
 import { Component, Show } from "solid-js";
 import { ImageDataDisplay } from "./ImageDataDisplay";
 

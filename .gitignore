@@ -3,6 +3,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,conan,cmake,c++,node
 
 .turbo
+
+# Python virtual environments
 .venv
 
 ### C++ ###
@@ -51,6 +53,8 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+CMakeUserPresets.json
+CMakeSettings.json
 
 ### CMake Patch ###
 # External projects
@@ -58,7 +62,6 @@ _deps
 
 ### Conan ###
 # Conan build information
-conan.lock
 conanbuildinfo.*
 conaninfo.txt
 graph_info.json
@@ -275,3 +278,10 @@ dist
 
 # Local Netlify folder
 .netlify
+
+# Python virtual environment
+.venv
+
+# vim files
+Session.vim
+*.sw?

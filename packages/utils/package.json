@@ -1,16 +1,16 @@
 {
   "name": "@mb/utils",
-  "version": "0.0.0",
   "private": true,
-  "main": "utils.mjs",
-  "module": "utils.mjs",
-  "types": "types/utils.d.mts",
+  "version": "0.0.0",
   "scripts": {
     "build-types": "tsc"
   },
+  "main": "utils.mjs",
+  "module": "utils.mjs",
+  "types": "types/utils.d.mts",
   "devDependencies": {
     "resolve-package-path": "^4.0.3",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "zx": "^7.2.3"
   }
 }

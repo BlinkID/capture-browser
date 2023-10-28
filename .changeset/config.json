@@ -8,8 +8,8 @@
       "capture-main",
       "capture-wasm",
       "capture-worker",
-      "capture-ui",
-      "@microblink/capture"
+      "@microblink/capture",
+      "example-*"
     ]
   ],
   "access": "public",

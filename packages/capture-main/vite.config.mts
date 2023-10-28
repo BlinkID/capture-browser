@@ -1,6 +1,10 @@
+import { ecsstatic } from "@acab/ecsstatic/vite";
+import { getPackagePath, linkResources } from "@mb/utils";
+import { stripIndents } from "common-tags";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
-import { linkResources, getPackagePath } from "@mb/utils";
+import solidPlugin from "vite-plugin-solid";
+import solidSvg from "vite-plugin-solid-svg";
 import { fs } from "zx";
 import { dependencies } from "./package.json";
 
@@ -11,7 +15,7 @@ export default defineConfig((config) => ({
     target: "es2022",
     lib: {
       entry: {
-        capture: resolve(__dirname, "./src/main.ts"),
+        capture: resolve(__dirname, "./src/index.ts"),
       },
       name: "capture",
       // fileName: (format, name) => `${name}.${format}.js`,
@@ -19,14 +23,20 @@ export default defineConfig((config) => ({
     },
   },
   plugins: [
+    solidPlugin(),
+    solidSvg(),
+    ecsstatic({
+      classNamePrefix: "mb",
+    }),
     {
       name: "move-resources",
       buildStart: async () => {
         if (ranOnce) {
           return;
         }
-        moveDist("capture-wasm");
-        moveDist("capture-worker");
+        await moveDist("capture-wasm");
+        await moveDist("capture-worker");
+        await writeResourceDoc();
         ranOnce = true;
       },
     },
@@ -36,6 +46,15 @@ export default defineConfig((config) => ({
 let ranOnce = false;
 
 type Dependency = keyof typeof dependencies;
+
+async function writeResourceDoc() {
+  fs.outputFile(
+    "public/resources/DO_NOT_MODIFY_THIS_DIRECTORY.md",
+    stripIndents`
+      Do not modify the name of this directory, or the files inside it.
+      The Wasm and Web Workers will look for the \`resources\` directory on the path.`,
+  );
+}
 
 async function moveDist(path: Dependency) {
   const pkgPath = getPackagePath(path);
