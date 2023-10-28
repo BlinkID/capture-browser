@@ -18,6 +18,7 @@
     // go to js file when using IDE functions like
     // "Go to Definition" in VSCode
     "declarationMap": true,
+    "module": "Node16",
     "moduleResolution": "Node16",
     "skipLibCheck": true
   }

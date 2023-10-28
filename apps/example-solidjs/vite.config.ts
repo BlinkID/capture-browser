@@ -16,8 +16,6 @@ import mkcert from "vite-plugin-mkcert";
 import solidPlugin from "vite-plugin-solid";
 import { fs } from "zx";
 import { dependencies } from "./package.json";
-import { ecsstatic } from "@acab/ecsstatic/vite";
-import solidSvg from "vite-plugin-solid-svg";
 
 // https://vitejs.dev/guide/migration.html#architecture-changes-and-legacy-options
 dns.setDefaultResultOrder("verbatim");
@@ -41,22 +39,17 @@ export default defineConfig((config) => {
       target: "es2022",
     },
     plugins: [
-      // FullReload(["public/**/*"]),
-      ecsstatic({
-        classNamePrefix: "mb",
-      }),
       {
         name: "move-resources",
         buildStart: async () => {
           if (ranOnce) {
             return;
           }
-          moveDist("capture-main");
+          moveDist("@microblink/capture");
           ranOnce = true;
         },
       },
       solidPlugin(),
-      solidSvg(),
       // Generates certificates for https
       mkcert(),
     ],

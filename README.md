@@ -4,7 +4,7 @@
 
 The Capture Browser SDK gives you the ability to auto-capture high-quality images of identity documents in a user-friendly way. The SDK provides you with a rectified image of the document, ensuring a high success rate in extracting document text or verifying the document's validity.
 
-Users are guided to avoid glare, blurred images, bad lighting conditions, fingers over the document, or too much tilt. The SDK is able to recognize if a document is single-sided (i.e., passport) or double-sided (i.e., driving license) and prompt the user to scan the back side of the document when needed.
+Users are guided to avoid glare, blurred images, bad lighting conditions, fingers covering the document, or too much tilt. The SDK is able to recognize if a document is single-sided (i.e., passport) or double-sided (i.e., driving license) and prompt the user to scan the back side of the document when needed.
 
 In the results, you can obtain a cropped, perspective-corrected image of the document, along with the original frame. These can be processed by your webapp in any way required. The SDK is lightweight and can be easily integrated into your webapp, blending seamlessly with your design.
 
@@ -25,7 +25,7 @@ pnpm add @microblink/capture
 
 ## Obtaining a licence
 
-A valid license key is required to initialize scanning. You can request a free trial license key after registering on [Microblink Developer Hub](https://account.microblink.com/signin). The license is bound to the application ID of your app.
+A valid license key is required to initialize scanning. You can request a free trial license key after registering on [Microblink Developer Hub](https://account.microblink.com/signin). The license is bound to the domain of your app.
 
 ## Hosting environment
 
@@ -39,7 +39,7 @@ Cross-Origin-Opener-Policy: same-origin
 
 Otherwise, you will only be able to run the single-threaded version of the SDK.
 
-In order to load the accompanying Wasm files and Web Workers, you also need to host them locally on your dev server. These files can be found inside the `node_modules/@microblink/capture/dist/resources` directory after installation.
+In order to load the accompanying Wasm files and Web Workers, you also need to host them locally on your dev server. These files can be found inside the `node_modules/@microblink/capture/dist/resources` directory after installation. The `/resources` directory must be hosted without modification of the directory name or its contents.
 
 The dev environments for the example apps have these set and you can use them as a reference.
 
@@ -158,6 +158,21 @@ All components rendered by the UI are nested under `.mb-style-scope` which provi
 ### Detailed capturing process information
 
 You can find details on the internal state of the capture process using the [`onFrameAnalysis`](/packages/capture-main/src/createCaptureSdk.ts#57) callback. This callback will provide you with an `ImageData` instance of the previously processed frame and the [`FrameAnalysisResult`](/packages/capture-wasm/src/FrameAnalysisResult.ts).
+
+### Low-level access Direct API
+
+This mode gives users the capability to directly interact with the `Analyzer` instance, bypassing the provided functionality in the Capture SDK such as camera and video management, user feedback, callbacks and state management.
+
+```typescript
+import { createDirectApi } from "@microblink/capture";
+
+const directApi = await createDirectApi({
+  licenseKey: "YOUR_LICENCE",
+});
+
+// The user is free to use methods available on
+// the `directApi` to fit their use case
+```
 
 ## Troubleshooting
 

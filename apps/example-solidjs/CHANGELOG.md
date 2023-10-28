@@ -1,18 +1,18 @@
 # example-solidjs
 
-## 0.0.4
+## 1.1.0
 
 ### Patch Changes
 
-- capture-main@1.0.8
-- capture-ui@1.0.8
+- Updated dependencies
+  - @microblink/capture@1.1.0
 
 ## 0.0.3
 
 ### Patch Changes
 
 - Updated dependencies [15bde2b]
-  - capture-main@1.0.7
+  - @microblink/capture@1.0.7
   - capture-ui@1.0.7
 
 ## 0.0.2

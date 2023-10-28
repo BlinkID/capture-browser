@@ -15,151 +15,161 @@ import { expose, finalizer, proxy } from "comlink";
 import { getCrossOriginWorkerURL } from "./getCrossOriginWorkerURL";
 import { detectWasmFeatures } from "./wasm-feature-detect";
 
+// TODO: Need to hash filenames in /resources/ for cache busting
+
 declare global {
   interface WorkerGlobalScope {
     createModule: EmscriptenModuleFactory<CaptureWasmModule>;
   }
 }
 
-// Lift it to global scope and act like it exists, just in case
-let wasmModule: CaptureWasmModule;
-let analyzer: Analyzer;
-// we can't get the location if the worker is loaded through a `blob:`
-let resourceUrl: string;
+class CaptureWorker {
+  #wasmModule?: CaptureWasmModule;
+  #analyzer?: Analyzer;
+  #resourceUrl?: string;
 
-console.log("Worker loaded");
+  /**
+   * @returns a Comlink-proxified instance of the Wasm module
+   */
+  async loadWasm() {
+    // TODO: Error handling
+    const wasmVariant = await detectWasmFeatures();
 
-// TODO: Need to hash filenames in /resources/ for cache busting
+    console.log(`Requesting ${wasmVariant} Wasm build`);
 
-/**
- * @returns a Comlink-proxified instance of the Wasm module
- */
-async function loadWasm() {
-  // TODO: Error handling
-  const wasmVariant = await detectWasmFeatures();
+    // TODO: what happens with no resourceUrl?
 
-  console.log(`Requesting ${wasmVariant} Wasm build`);
+    const variantUrl = `${this.#resourceUrl}/${wasmVariant}`;
 
-  const variantUrl = `${resourceUrl}/${wasmVariant}`;
+    const loaderUrl = `${variantUrl}/capture-wasm.js`;
+    const workerUrl = `${variantUrl}/capture-wasm.worker.js`;
 
-  const loaderUrl = `${variantUrl}/capture-wasm.js`;
-  const workerUrl = `${variantUrl}/capture-wasm.worker.js`;
+    let crossOriginWorkerUrl: string;
 
-  let crossOriginWorkerUrl: string;
+    const crossOriginLoaderUrl = await getCrossOriginWorkerURL(loaderUrl);
 
-  const crossOriginLoaderUrl = await getCrossOriginWorkerURL(loaderUrl);
+    if (wasmVariant === "advanced-threads") {
+      crossOriginWorkerUrl = await getCrossOriginWorkerURL(workerUrl);
+    }
 
-  if (wasmVariant === "advanced-threads") {
-    crossOriginWorkerUrl = await getCrossOriginWorkerURL(workerUrl);
-  }
+    try {
+      importScripts(crossOriginLoaderUrl);
+    } catch (error) {
+      console.error("loading scripts failed", error);
+    }
 
-  try {
-    importScripts(crossOriginLoaderUrl);
-  } catch (error) {
-    console.error("loading scripts failed", error);
+    /**
+     * https://emscripten.org/docs/api_reference/module.html#module-object
+     */
+    this.#wasmModule = await self.createModule({
+      locateFile: (path) => {
+        let filePath: string;
+
+        // Since `locateFile` is synchronous, we can't use
+        // `getCrossOriginWorkerURL` here. Instead, we make an exception for the
+        // worker, as we know its name in advance
+        if (path.includes(".worker.js")) {
+          filePath = crossOriginWorkerUrl;
+        } else {
+          filePath = `${this.#resourceUrl}/${wasmVariant}/${path}`;
+        }
+        return filePath;
+      },
+      // TODO: pthreads build breaks without this:
+      // "Failed to execute 'createObjectURL' on 'URL': Overload resolution failed."
+      mainScriptUrlOrBlob: crossOriginLoaderUrl.toString(),
+      setStatus: (text) => {
+        // console.log(text, convertEmscriptenStatusToProgress(text));
+      },
+    });
+
+    // @ts-ignore - this property exists when proxy-ed
+    this.#wasmModule[finalizer] = () => {
+      // console.log("finalizer wasmModule");
+    };
+
+    return proxy(this.#wasmModule);
   }
 
   /**
-   * https://emscripten.org/docs/api_reference/module.html#module-object
+   * Separate function so that we can set a finalizer on the analyzer.
    */
-  wasmModule = await self.createModule({
-    locateFile: (path) => {
-      let filePath: string;
+  createAnalyzer() {
+    if (!this.#wasmModule) {
+      console.error("Wasm is not initialized yet. Call loadWasm() first.");
+      return;
+    }
 
-      // Since `locateFile` is synchronous, we can't use
-      // `getCrossOriginWorkerURL` here. Instead, we make an exception for the
-      // worker, as we know its name in advance
-      if (path.includes(".worker.js")) {
-        filePath = crossOriginWorkerUrl;
-      } else {
-        filePath = `${resourceUrl}/${wasmVariant}/${path}`;
+    this.#analyzer = new this.#wasmModule.Analyzer();
+
+    // @ts-ignore - this property exists when proxy-ed
+    this.#analyzer[finalizer] = () => {
+      console.log(
+        "Comlink.finalizer called on Analyzer instance. Deleting instance.",
+      );
+      if (this.#analyzer) {
+        void this.#analyzer.delete();
       }
-      return filePath;
-    },
-    // TODO: pthreads build breaks without this:
-    // "Failed to execute 'createObjectURL' on 'URL': Overload resolution failed."
-    mainScriptUrlOrBlob: crossOriginLoaderUrl.toString(),
-    setStatus: (text) => {
-      // console.log(text, convertEmscriptenStatusToProgress(text));
-    },
-  });
+    };
 
-  // @ts-ignore - this property exists when proxy-ed
-  wasmModule[finalizer] = () => {
-    console.log("finalizer wasmModule");
-  };
-
-  return proxy(wasmModule);
-}
-
-/**
- * Separate function so that we can set a finalizer on the analyzer.
- */
-function createAnalyzer() {
-  if (!wasmModule) {
-    console.warn("Wasm is not initialized yet. Call loadWasm() first.");
+    return proxy(this.#analyzer);
   }
 
-  // TODO: check initialization state
+  /**
+   * Separate function so that we can clear the `imageData` buffer
+   */
+  analyze(image: Parameters<Analyzer["analyze"]>[0]) {
+    if (!this.#analyzer) {
+      throw new Error(
+        "Analyzer is not initialized yet. Call createAnalyzer() first.",
+      );
+    }
 
-  analyzer = new wasmModule.Analyzer();
+    const frameAnalysisResultOrError = this.#analyzer.analyze(image);
+    // transfer the ownership of the buffer back, without a recipient
+    self.postMessage({}, [image.data.buffer]);
+    // @ts-ignore
+    image = null;
 
-  // @ts-ignore - this property exists when proxy-ed
-  analyzer[finalizer] = () => {
-    console.log(
-      "Comlink.finalizer called on Analyzer instance. Deleting instance.",
-    );
-    void analyzer.delete();
-  };
+    return frameAnalysisResultOrError;
+  }
 
-  return proxy(analyzer);
-}
+  /**
+   * Terminates the workers and the Wasm runtime.
+   */
+  terminate() {
+    self.close();
+  }
 
-/**
- * Separate function so that we can clear the `imageData` buffer
- */
-function analyze(image: Parameters<Analyzer["analyze"]>[0]) {
-  // TODO: check what happens if it gets deleted
+  /** By default, the SDK will look for the required `/resources` directory on
+   * the current URL path.
+   *
+   * If you are hosting the resources on a different URL, provide a new relative
+   * or absolute one. The SDK will then search for files in the `/resources`
+   * directory of that URL.
+   */
+  setResourceUrl(url: string) {
+    this.#resourceUrl = url;
+  }
 
-  const frameAnalysisResult = analyzer.analyze(image);
-  // transfer the ownership of the buffer back, without a recipient
-  self.postMessage({}, [image.data.buffer]);
-  // @ts-ignore
-  image = null;
-
-  return frameAnalysisResult;
+  /**
+   * This method is called when the worker is terminated.
+   */
+  [finalizer]() {
+    console.log("Comlink.finalizer called on proxyWorker");
+    // Can't use this as the `proxyWorker` gets randomly GC'd, even if in use
+    // self.close();
+  }
 }
 
 /**
  * This object contains methods exposed from the worker via Comlink
  */
-export const proxyWorker = {
-  createAnalyzer,
-  loadWasm,
-  analyze,
-  terminate: () => self.close(),
-  setResourceUrl: (url: string) => {
-    resourceUrl = url;
-  },
-  // TODO: find out when this gets called - seems random
-  [finalizer]: () => {
-    console.log("Comlink.finalizer called on proxyWorker");
-    // Can't use this as the `proxyWorker` gets randomly GC'd, even if in use
-    // self.close();
-  },
-};
+const captureWorker = new CaptureWorker();
 
-expose(proxyWorker);
+expose(captureWorker);
 
-// https://github.com/microsoft/TypeScript/issues/47663#issuecomment-1519138189
-type ProxyType = typeof proxyWorker;
-// we can't use the same symbol anyway
-/*
-Exported variable 'createProxyWorker' has or is using name 'finalizer' from
-external module "/capture-worker/types/worker"
-but cannot be named.ts(4023)
-*/
-export type ProxyWorker = Omit<ProxyType, "finalizer">;
+export type ProxyWorker = Omit<CaptureWorker, typeof finalizer>;
 
 /*
   TODO: document these better

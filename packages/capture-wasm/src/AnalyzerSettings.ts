@@ -14,7 +14,7 @@
  */
 export type AnalyzerSettings = {
   /**
-   * Whether to capture a single side or capture all possible sides
+   * Whether to capture a single side or capture both sides
    * of a document with automatic side detection.
    */
   captureSingleSide: boolean;
@@ -25,7 +25,7 @@ export type AnalyzerSettings = {
   returnTransformedDocumentImage: boolean;
 
   /**
-   * Configures capture strategy used to select the best frame.
+   * Configures the capture strategy used to select the best frame.
    *
    * The following values are possible:
    *
@@ -33,7 +33,7 @@ export type AnalyzerSettings = {
    *   capture frames with lower quality
    * - `"optimize-for-quality"` - Analysis is slower in order to capture high
    *   quality frames.
-   * - `"default"` - Trade-off for quality and speed.
+   * - `"default"` - Trade-off between quality and speed.
    * - `"single-frame"` - Captures first acceptable frame.
    */
   captureStrategy: CaptureStrategy;
@@ -45,7 +45,7 @@ export type AnalyzerSettings = {
    * Both margin and document are required to be fully visible on camera frame
    * in order to finish capture.
    *
-   * Allowed values are from 0 to 1.
+   * Allowed values are from 0 to 1. (0%-100%)
    */
   documentFramingMargin: number;
 
@@ -110,6 +110,14 @@ export type AnalyzerSettings = {
    * Allowed values are from 150 to 400.
    */
   minimumDocumentDpi: number;
+
+  /**
+   * Whether to automatically adjust minimum document dpi.
+   *
+   * If it is enabled, the minimum dpi is adjusted to optimal value for the
+   * provided input resolution to enable capture of all document groups.
+   */
+  adjustMinimumDocumentDpi: boolean;
 };
 
 /**

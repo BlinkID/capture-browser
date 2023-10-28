@@ -11,9 +11,13 @@
 
 /* @refresh reload */
 
-import { AnalyzerResult, CaptureSdkSettings } from "capture-main";
-import { CaptureComponent, createCaptureUi } from "capture-ui";
-import "capture-ui/style.css";
+import {
+  AnalyzerResult,
+  CaptureComponent,
+  CaptureSdkSettings,
+  createCaptureUi,
+} from "@microblink/capture";
+import "@microblink/capture/style.css";
 import {
   Component,
   Match,
@@ -111,9 +115,9 @@ export const App: Component = () => {
 
   return (
     <div>
-      <p>This content is always visible to test portalling.</p>
+      {/* <p>This content is always visible to test portal.</p> */}
 
-      <div ref={mountPoint!} />
+      <div ref={mountPoint!} class="test-mount-point" />
 
       {/* TODO: localize these */}
       <Switch>

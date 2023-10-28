@@ -1,31 +1,31 @@
 {
   "name": "capture-wasm",
-  "version": "1.0.1",
+  "description": "Wasm runtime",
   "private": true,
-  "description": "Wasm prebuilts + TS types",
+  "version": "1.0.7",
   "scripts": {
     "build": "tsc",
-    "lint:types": "tsc --emitDeclarationOnly false --noEmit",
+    "clean": "rimraf .turbo types",
     "lint": "concurrently pnpm:lint:types",
-    "clean": "rimraf .turbo types"
+    "lint:types": "tsc --emitDeclarationOnly false --noEmit"
   },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./types/index.ts",
   "files": [
     "dist",
     "types"
   ],
-  "types": "./types/index.ts",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
   "devDependencies": {
-    "@types/emscripten": "^1.39.6",
-    "concurrently": "^8.2.0",
-    "dotenv-cli": "^7.2.1",
-    "rimraf": "^5.0.1",
+    "@types/emscripten": "^1.39.9",
+    "concurrently": "^8.2.2",
+    "dotenv-cli": "^7.3.0",
+    "rimraf": "^5.0.5",
     "tsconfig": "workspace:*",
-    "tsx": "^3.12.7",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.6",
-    "zod": "^3.21.4",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "zod": "^3.22.4",
     "zx": "^7.2.3"
   }
 }
