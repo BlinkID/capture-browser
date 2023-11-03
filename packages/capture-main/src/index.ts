@@ -9,32 +9,31 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-import { from } from "solid-js";
-import "./devUtils";
 import "rvfc-polyfill";
+import "./devUtils";
 
 export { createCaptureSdk } from "./core/CaptureSdk";
 export { createDirectApi } from "./core/DirectApi";
 export { createCaptureUi } from "./ui/createCaptureUi";
 
 export type {
-  ExposedComponentApi,
   CaptureComponent,
+  ExposedComponentApi,
 } from "./ui/createCaptureUi";
 
 export type {
+  CaptureCallbacks,
   CaptureSdk,
   CaptureSdkSettings,
-  CaptureCallbacks,
 } from "./core/CaptureSdk";
 
 export type { DirectApi, DirectApiSettings } from "./core/DirectApi";
 
 export { ConfiguredCamera } from "./core/ConfiguredCamera";
 
+export * from "./core/FeedbackParser";
 export * from "./core/imageDataUtils";
 export * from "./core/zustandStore";
-export * from "./core/FeedbackParser";
 
 // export all from other dependencies
 export * from "capture-wasm";

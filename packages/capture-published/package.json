@@ -9,7 +9,8 @@
     "clean": "rimraf .turbo types dist publish-dir public *.tsbuildinfo",
     "create-npm": "tsx create-npm.mts",
     "lint:package": "publint publish-dir && attw publish-dir --pack publish-dir --exclude-entrypoints style.css",
-    "rollup": "api-extractor run --local --verbose"
+    "rollup": "api-extractor run --local --verbose",
+    "prepublishOnly": "pnpm run lint:package"
   },
   "type": "module",
   "main": "./dist/capture.umd.cjs",
