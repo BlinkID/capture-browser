@@ -62,9 +62,8 @@ export const getCrossOriginWorkerURL = (
             `data:${type},` + encodeURIComponent(importScriptsFix + codeString);
 
           if (options.useBlob) {
-            finalURL = URL.createObjectURL(
-              new Blob([`importScripts("${finalURL}")`], { type }),
-            );
+            const blob = new Blob([importScriptsFix + codeString], { type: 'application/javascript' });
+            finalURL = URL.createObjectURL(blob);
           }
 
           resolve(finalURL);
