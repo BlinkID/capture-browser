@@ -44,15 +44,11 @@ export const getCrossOriginWorkerURL = (
       void fetch(originalWorkerUrl)
         .then((res) => res.text())
         .then((codeString) => {
-          const workerPath = new URL(originalWorkerUrl).href.split("/");
-          workerPath.pop();
-
           let finalURL = `data:${type},` + encodeURIComponent(codeString);
 
           if (options.useBlob) {
-            finalURL = URL.createObjectURL(
-              new Blob([`importScripts("${finalURL}")`], { type }),
-            );
+            const blob = new Blob([codeString], { type: 'application/javascript' });
+            finalURL = URL.createObjectURL(blob);
           }
 
           resolve(finalURL);
