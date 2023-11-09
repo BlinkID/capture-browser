@@ -356,7 +356,7 @@ importers:
         specifier: ^1.39.9
         version: 1.39.9
       capture-main:
-        specifier: 1.0.7
+        specifier: workspace:*
         version: link:../capture-main
       capture-wasm:
         specifier: workspace:*

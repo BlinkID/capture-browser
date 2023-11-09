@@ -56,6 +56,11 @@ fs.writeFileSync(
   JSON.stringify(publishPackageJson, null, 2),
 );
 
+// get git root
+const gitRoot = (await $`git rev-parse --show-toplevel`.quiet())
+  .toString()
+  .trim();
+
 // copy readme file
 fs.copySync(
   `${releasePackagePath}/README.md`,

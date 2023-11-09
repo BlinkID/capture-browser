@@ -1,5 +1,13 @@
 # capture-main
 
+## 1.1.1
+
+### Patch Changes
+
+- f70472b: Removed the use of `data:` protocols when loading cross-origin workers. Will only use the `blob:` to be more flexible with different CSPs.
+- Updated dependencies [f70472b]
+  - capture-worker@1.1.1
+
 ## 1.0.7
 
 ### Patch Changes
