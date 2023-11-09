@@ -1,4 +1,4 @@
-![logo-microblink](assets/microblink-logo.png)
+![logo-microblink](https://github.com/BlinkID/capture-browser/assets/2827047/ab8ab61b-ac82-4d84-8013-f6f2efe5bec5)
 
 # _Capture_ SDK for browsers
 

@@ -1,5 +1,11 @@
 # @microblink/capture
 
+## 1.1.1
+
+### Patch Changes
+
+- Removed the use of `data:` protocols when loading cross-origin workers. Will only use the `blob:` to be more flexible with different CSPs.
+
 ## 1.1.0
 
 ### Minor Changes

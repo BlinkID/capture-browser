@@ -1,7 +1,7 @@
 {
   "name": "example-vanilla-ts",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "scripts": {
     "build": "tsc && vite build",
     "clean": "rimraf dist public .turbo types",

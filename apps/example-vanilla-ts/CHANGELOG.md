@@ -1,5 +1,12 @@
 # example-vanilla-ts
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [f70472b]
+  - @microblink/capture@1.1.1
+
 ## 1.1.0
 
 ### Patch Changes

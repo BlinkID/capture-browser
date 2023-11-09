@@ -58,13 +58,15 @@ export const getCrossOriginWorkerURL = (
             importScripts = (...urls) => _importScripts(...urls.map(_fixImports));
           `;
 
-          let finalURL =
-            `data:${type},` + encodeURIComponent(importScriptsFix + codeString);
+          let finalURL = "";
 
           if (options.useBlob) {
-            finalURL = URL.createObjectURL(
-              new Blob([`importScripts("${finalURL}")`], { type }),
-            );
+            const blob = new Blob([importScriptsFix + codeString], { type });
+            finalURL = URL.createObjectURL(blob);
+          } else {
+            finalURL =
+              `data:${type},` +
+              encodeURIComponent(importScriptsFix + codeString);
           }
 
           resolve(finalURL);
