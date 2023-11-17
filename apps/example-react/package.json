@@ -11,9 +11,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@microblink/capture": "workspace:*",
+    "@microblink/capture": "^1.1.1",
+    "jotai": "^2.5.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-use-camera": "^1.1.6"
   },
   "devDependencies": {
     "@mb/utils": "workspace:*",

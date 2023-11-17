@@ -12,43 +12,31 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 
-import {
-  AnalyzerResult,
-  CaptureComponent,
-  createCaptureUi,
-} from "@microblink/capture";
+import { CaptureComponent } from "@microblink/capture";
 import "@microblink/capture/style.css";
+import { useAutoCaptureSdk } from "./hooks/useAutoCaptureSdk";
+import { IdCapture } from "./components/IDCapture";
+import { CapturedImage } from "react-use-camera";
+import { IdReview } from "./components/IDReview";
+import { autoCaptureSdkAtom } from "./globalState";
+import { useAtomValue } from "jotai";
 
 function App() {
-  const divRef = useRef<HTMLDivElement>(null);
-  const [result, setResult] = useState<AnalyzerResult>();
   const captureComponent = useRef<CaptureComponent>();
   const initialized = useRef(false);
 
-  const loadSDK = async () => {
-    if (!divRef.current) {
-      return;
-    }
+  const { initialiseAutoCaptureSdk } = useAutoCaptureSdk();
 
-    captureComponent.current = await createCaptureUi({
-      sdkSettings: {
-        callbacks: {
-          onCaptureResult: (result) => setResult(result),
-        },
-        licenseKey: import.meta.env.VITE_LICENCE_KEY,
-      },
-      uiSettings: {
-        target: divRef.current,
-      },
-    });
-  };
+  const [showReviewScreen, setShowReviewScreen] = useState<boolean>(false);
+  const [capturedDocument, setCapturedDocument] = useState<CapturedImage>();
+  const autoCaptureSdk = useAtomValue(autoCaptureSdkAtom);
 
   useEffect(() => {
     if (initialized.current) {
       return;
     }
 
-    loadSDK();
+    initialiseAutoCaptureSdk();
     // prevent loading twice in strict mode
     initialized.current = true;
 
@@ -56,16 +44,33 @@ function App() {
       console.log(captureComponent.current);
       captureComponent.current?.dismount();
     };
-  }, []);
+  }, [initialiseAutoCaptureSdk]);
 
-  useEffect(() => {
-    console.log(result);
-  }, [result]);
+  const handleCaptureFromCamera = (imageData: CapturedImage) => {
+    setCapturedDocument(imageData);
+    setShowReviewScreen(true);
+  };
 
+  const handleRetakeFromReview = () => {
+    setShowReviewScreen(false);
+  };
+
+  if (!autoCaptureSdk) {
+    return <>SDK not loaded</>;
+  }
   return (
-    <>
-      <div ref={divRef}></div>
-    </>
+    <div className="flex h-full w-full items-center justify-center bg-page">
+      {initialized && showReviewScreen ? (
+        <IdReview
+          capturedData={capturedDocument}
+          onRetake={handleRetakeFromReview}
+        />
+      ) : (
+        <IdCapture
+          onCapture={handleCaptureFromCamera}
+        />
+      )}
+    </div>
   );
 }
 
