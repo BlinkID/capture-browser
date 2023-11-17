@@ -42,6 +42,7 @@ function App() {
 
     return () => {
       console.log(captureComponent.current);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       captureComponent.current?.dismount();
     };
   }, [initialiseAutoCaptureSdk]);
