@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -14,13 +14,14 @@
  */
 export type AnalyzerSettings = {
   /**
-   * Whether to capture a single side or capture both sides
+   * Whether to capture a single side or capture all possible sides
+   * Determines whether to capture a single side or capture all possible sides
    * of a document with automatic side detection.
    */
   captureSingleSide: boolean;
 
   /**
-   * Whether to return an image of a cropped and perspective-corrected document.
+   * Determines whether to return an image of a cropped and perspective-corrected document.
    */
   returnTransformedDocumentImage: boolean;
 
@@ -50,10 +51,16 @@ export type AnalyzerSettings = {
   documentFramingMargin: number;
 
   /**
-   * Whether to return an image of the transformed document with applied margin
+   * Determines whether to return an image of the transformed document with applied margin
    * used during document framing.
    */
   keepMarginOnTransformedDocumentImage: boolean;
+
+  /**
+   * Determines whether to preserve the captured document DPI in transformed document image.
+   * If disabled, the document DPI is downscaled to 400 DPI.
+   */
+  keepDpiOnTransformedDocumentImage: boolean;
 
   /**
    * Parameters for lighting estimation.
@@ -72,21 +79,6 @@ export type AnalyzerSettings = {
    */
   lightingThresholds: LightingThresholds;
   /**
-   * Whether to discard frames with blurred documents.
-   *
-   * If it is enabled, the capture process is allowed to finish with blur on the
-   * document.
-   */
-  ignoreBlur: boolean;
-
-  /**
-   * Whether to discard frames with glare detected on the document.
-   *
-   * If it is enabled, the capture process is allowed to finish with glare on
-   * the document.
-   */
-  ignoreGlare: boolean;
-  /**
    * Defines percentage of the document area that is allowed to be occluded by hand.
    *
    * Allowed values are from 0 to 1.
@@ -94,12 +86,41 @@ export type AnalyzerSettings = {
   handOcclusionThreshold: number;
 
   /**
-   * Threshold for detecting tilted documents. Frames with documents tilted more
-   * than defined by this threshold are discarded.
+   * Defines the tolerance for discarding overly tilted frames.
+   * The following values are possible:
    *
-   * Allowed values are from 0 to 1.
+   * - `"disabled"` - Disables tilt detection.
+   * - `"strict"` - The policy is strict, resulting in more frames being discarded.
+   * - `"normal"` - Trade-off between `"strict"` and `"relaxed"`.
+   * - `"relaxed"` - The policy is relaxed, resulting in fewer frames being discarded.
+   *
+   * @defaultValue `"normal"`
    */
-  tiltThreshold: number;
+  tiltPolicy: StrictnessLevel;
+
+  /**
+   * Defines the tolerance for discarding overly blurred frames.
+   * The following values are possible:
+   *
+   * - `"disabled"` - Disables blur detection.
+   * - `"strict"` - The policy is strict, resulting in more frames being discarded.
+   * - `"normal"` - Trade-off between `"strict"` and `"relaxed"`.
+   * - `"relaxed"` - The policy is relaxed, resulting in fewer frames being discarded.
+   *
+   * @defaultValue `"normal"`
+   */
+  blurPolicy: StrictnessLevel;
+
+  /**
+   * Defines the tolerance for discarding frames with excessive glare.
+   * - `"disabled"` - Disables glare detection.
+   * - `"strict"` - The policy is strict, resulting in more frames being discarded.
+   * - `"normal"` - Trade-off between `"strict"` and `"relaxed"`.
+   * - `"relaxed"` - The policy is relaxed, resulting in fewer frames being discarded.
+   *
+   * @defaultValue `"normal"`
+   */
+  glarePolicy: StrictnessLevel;
 
   /**
    * Required minimum DPI of the captured document on transformed image.
@@ -112,9 +133,9 @@ export type AnalyzerSettings = {
   minimumDocumentDpi: number;
 
   /**
-   * Whether to automatically adjust minimum document dpi.
+   * Determines whether to automatically adjust minimum document DPI.
    *
-   * If it is enabled, the minimum dpi is adjusted to optimal value for the
+   * If it is enabled, the minimum DPI is adjusted to optimal value for the
    * provided input resolution to enable capture of all document groups.
    */
   adjustMinimumDocumentDpi: boolean;
@@ -150,3 +171,5 @@ export type LightingThresholds = {
   tooDarkThreshold: number;
   tooBrightThreshold: number;
 };
+
+export type StrictnessLevel = "disabled" | "strict" | "normal" | "relaxed";

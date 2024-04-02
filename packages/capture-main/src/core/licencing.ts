@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -19,6 +19,7 @@ function toBaltazarRequest(unlockResult: LicenseUnlockResult): BaltazarRequest {
   return {
     licenseId: unlockResult.licenseId,
     licensee: unlockResult.licensee,
+    applicationIds: unlockResult.applicationIds,
     packageName: unlockResult.packageName,
     platform: "Browser",
     sdkName: unlockResult.sdkName,

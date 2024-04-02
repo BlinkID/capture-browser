@@ -1,7 +1,7 @@
 {
   "name": "capture-sdk",
   "description": "",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "",
   "scripts": {
     "build": "FORCE_COLOR=1 turbo build --no-daemon",
@@ -12,7 +12,7 @@
     "watch": "FORCE_COLOR=1 turbo watch --filter='./packages/*' --no-daemon"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.26.2",
+    "@changesets/cli": "^2.27.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
     "syncpack": "^11.2.1",

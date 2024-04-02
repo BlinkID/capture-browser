@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -86,7 +86,10 @@ class _CaptureSdk {
     // video disconnect / dismount callback
     const connectionObserver = new ConnectionObserver((entries) => {
       if (!entries[0].connected) {
-        void this.destroy();
+        zustandStore.setState({
+          videoElement: null,
+        });
+        void this.cancelCapture();
       }
     });
     connectionObserver.observe(videoElement);
@@ -413,6 +416,7 @@ class _CaptureSdk {
     const state = zustandStore.getState();
 
     state.selectedCamera?.stopStream();
+    await this.cancelCapture();
 
     if (!state.videoElement) {
       console.log("no video element");
@@ -420,7 +424,7 @@ class _CaptureSdk {
     }
 
     state.videoElement.srcObject = null;
-    await this.cancelCapture();
+
     this.pausePlayback();
   }
 
@@ -630,6 +634,7 @@ class _CaptureSdk {
    * Resets the captureSdk and terminates the workers and the Wasm runtime.
    */
   async destroy() {
+    console.info("Destroying Capture SDK instance");
     resetCoreStore();
     await this.#directApi.terminateWorker();
   }

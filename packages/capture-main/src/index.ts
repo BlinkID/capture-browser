@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -14,12 +14,12 @@ import "./devUtils";
 
 export { createCaptureSdk } from "./core/CaptureSdk";
 export { createDirectApi } from "./core/DirectApi";
-export { createCaptureUi } from "./ui/createCaptureUi";
-
-export type {
-  CaptureComponent,
-  ExposedComponentApi,
+export {
+  createCaptureUi,
+  createCaptureUiWithInstance,
 } from "./ui/createCaptureUi";
+
+export type { CaptureComponent } from "./ui/createCaptureUi";
 
 export type {
   CaptureCallbacks,

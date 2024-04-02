@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -75,9 +75,8 @@ export async function createConfiguredCamera(deviceInfo: CameraDeviceInfo) {
   try {
     const hdTestStream = await getHdStreamFromDevice(deviceInfo);
 
-    // console.log(hdTestStream);
-
     // we use settings because capabilities aren't supported in Firefox
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1179084
     const mediaTrackSettings = hdTestStream.getVideoTracks()[0].getSettings();
 
     // console.log(mediaTrackSettings);

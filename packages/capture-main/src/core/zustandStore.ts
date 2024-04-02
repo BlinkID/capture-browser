@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -113,17 +113,6 @@ const initialState: ReactiveStore = {
 export const zustandStore = createZustandStore<ReactiveStore>()(
   // this is important! Otherwise solid-zustand will start mutating the initial state
   subscribeWithSelector(() => structuredClone(initialState)),
-);
-
-zustandStore.subscribe(
-  (store) => store.videoElement,
-  // On videoElement set, it will be [videoElement, null]
-  // If the videoElement disappears, it will become [null, videoElement]
-  (current, previous) => {
-    if (!current && previous) {
-      resetCoreStore();
-    }
-  },
 );
 
 /**
