@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -13,18 +13,12 @@ import {
   ParentComponent,
   createContext,
   createEffect,
-  onCleanup,
-  onMount,
   useContext,
 } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 import { MountableElement } from "solid-js/web";
 import { useStore } from "solid-zustand";
-import {
-  CaptureSdk,
-  CaptureSdkSettings,
-  createCaptureSdk,
-} from "../core/CaptureSdk";
+import { CaptureSdk } from "../core/CaptureSdk";
 import { ReactiveStore, zustandStore } from "../core/zustandStore";
 import { LocalizationStrings } from "./LocalizationContext";
 
@@ -37,7 +31,7 @@ export type SolidStore = {
   /** Is the help UI dialog open */
   helpVisible: boolean;
   /** UI settings sent to the Context provider */
-  uiSettings: Omit<UiSettings, "localization">;
+  uiSettings: Omit<UiSettingsWithDefinedTarget, "localization">;
   /** Function which will dismount the component */
   dismountFn: () => void;
 };
@@ -62,8 +56,24 @@ export type UiSettings = {
   /**
    * User provided localization keys
    */
-  localization?: Partial<Record<keyof LocalizationStrings, string>>;
+  localization?: Partial<LocalizationStrings>;
+
+  /**
+   * If `true`, the SDK will be destroyed when the component is dismounted.
+   * This is useful if you want to re-initialize the SDK on the same page.
+   *
+   * Defaults to `true` when using `createCaptureUi` and `false` when using
+   * `createCaptureUiWithInstance`.
+   */
+  destroyInstanceOnDismount?: boolean;
 };
+
+/**
+ * This type is used internally when the target is defined after initialization
+ */
+export interface UiSettingsWithDefinedTarget extends UiSettings {
+  target: MountableElement;
+}
 
 const StoreContext = createContext<{
   solidStore: SolidStore;
@@ -72,15 +82,15 @@ const StoreContext = createContext<{
 }>();
 
 export const StoreProvider: ParentComponent<{
-  sdkSettings: CaptureSdkSettings;
+  captureSdk: CaptureSdk;
   // we have localization available here, but we don't use it, as it's for the provider
-  mergedDefaults: SolidStore;
+  solidStoreDefaults: SolidStore;
 }> = (props) => {
   const [solidStore, updateSolidStore] = createStore<SolidStore>(
     // solid/store wraps the initial state in a proxy which results in mutating
     // the original initial state - take care to use a new object
     // eslint-disable-next-line solid/reactivity
-    props.mergedDefaults,
+    props.solidStoreDefaults,
   );
 
   /** Core SDK Zustand store exposed via SolidJS' reactive stores
@@ -88,35 +98,11 @@ export const StoreProvider: ParentComponent<{
    */
   const sdkStore = useStore(zustandStore);
 
-  onMount(() => {
-    void (async () => {
-      const captureSdk = await createCaptureSdk(props.sdkSettings);
-
-      updateSolidStore({
-        captureSdk,
-      });
-    })();
-  });
-
-  // We watch if the video element gets disconnected and trigger a dismount of
-  // the entire SolidJS UI component
+  // TODO: Do we need a createEffect here?
   createEffect(() => {
-    const dismount = props.mergedDefaults.dismountFn;
-
-    if (solidStore.captureSdk) {
-      const unsubscribe = solidStore.captureSdk.subscribe(
-        (store) => store.videoElement,
-        // On videoElement mount, it will be [videoElement, null]
-        // If the videoElement disappears, it will become [null, videoElement]
-        (current, previous) => {
-          if (!current && previous) {
-            dismount();
-          }
-        },
-      );
-
-      onCleanup(() => unsubscribe());
-    }
+    updateSolidStore({
+      captureSdk: props.captureSdk,
+    });
   });
 
   const contextValue = { solidStore, updateSolidStore, sdkStore };

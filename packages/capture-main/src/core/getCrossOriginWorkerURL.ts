@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -42,7 +42,10 @@ export const getCrossOriginWorkerURL = (
 
   return new Promise<string>(
     (resolve, reject) =>
-      void fetch(originalWorkerUrl)
+      void fetch(originalWorkerUrl, {
+        // abort if the worker is not fetched in a reasonable time
+        signal: AbortSignal.timeout(3000),
+      })
         .then((res) => res.text())
         .then((codeString) => {
           const workerPath = new URL(originalWorkerUrl).href.split("/");
@@ -71,6 +74,8 @@ export const getCrossOriginWorkerURL = (
 
           resolve(finalURL);
         })
-        .catch(reject),
+        .catch(() => {
+          reject(new Error(`Failed to fetch worker from ${originalWorkerUrl}`));
+        }),
   );
 };

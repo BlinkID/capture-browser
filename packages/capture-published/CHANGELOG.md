@@ -1,5 +1,46 @@
 # @microblink/capture
 
+## 1.2.0
+
+- Added configuration options for tilt, blur and glare tolerance.
+
+  These can be configured using the new `AnalyzerSettings` properties:
+
+  - `tiltPolicy`
+  - `blurPolicy`
+  - `glarePolicy`
+
+  Each value can have a `StrictnessLevel`:
+
+  - `"disabled"`
+  - `"strict"`
+  - `"normal"` (default value)
+  - `"relaxed"`
+
+  The `tiltThreshold`, `ignoreGlare`, and `ignoreBlur` settings have been replaced with the new policies.
+
+- Added `keepDpiOnTransformedDocumentImage` configuration on `AnalyzerSettings` which determines whether to preserve the captured document DPI in transformed document image. If disabled, the document DPI is downscaled to 400 DPI.
+
+- The `createCaptureUi` function will now throw an error if there was an issue during the creation of the SDK.
+
+- When booting up the SDK, the fetch function will time out after 3 seconds if it can't find the necessary resources.
+
+- Added `hasPing` property to `LicenseUnlockResult`
+
+- Added `destroyInstanceOnDismount` property on `uiSettings` which controls if the SDK instance, including the workers should be unloaded when the component is dismounted.
+
+  This property is `true` by default when the ui is created using the `createCaptureUi` function and `false` when using `createCaptureUiWithInstance`.
+
+- When using the headless API (`createCaptureSdk`), disconnecting the video element from the DOM will no longer destroy the SDK instance.
+
+- Fixed a bug where the camera selector dropdown wouldn't be correctly displayed due to a missing z-index.
+
+- Add fallback logic for generating user ID when local storage is blocked.
+
+- Upgraded types for the localization strings. Will now show the original value in autocomplete.
+
+- `ExposedComponentApi` has been deprecated and merged with `CaptureComponent`
+
 ## 1.1.1
 
 ### Patch Changes

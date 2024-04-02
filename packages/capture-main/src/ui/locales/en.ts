@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -8,8 +8,6 @@
  * THIS PROGRAM IS PROTECTED BY COPYRIGHT LAWS AND YOU MAY NOT
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
-
-// TODO: use as const and massage types in end-user API
 
 export default {
   // Capture messages
@@ -61,4 +59,5 @@ export default {
   next: "Next",
   ok: "OK",
   dismiss: "Dismiss",
-};
+  // `as const` is required for autocomplete to work
+} as const;

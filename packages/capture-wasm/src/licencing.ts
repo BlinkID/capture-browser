@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -11,8 +11,10 @@
 
 export type LicenseUnlockResult = Readonly<{
   isTrial: boolean;
+  hasPing: boolean;
   licenseId: string;
   licensee: string;
+  applicationIds: Array<string>;
   packageName: string;
   sdkName: string;
   sdkVersion: string;
@@ -29,6 +31,7 @@ export enum LicenseTokenState {
 export type BaltazarRequest = Readonly<{
   licenseId: string;
   licensee: string;
+  applicationIds: Array<string>;
   packageName: string;
   platform: string;
   sdkName: string;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Microblink Ltd. All rights reserved.
+ * Copyright (c) 2024 Microblink Ltd. All rights reserved.
  *
  * ANY UNAUTHORIZED USE OR SALE, DUPLICATION, OR DISTRIBUTION
  * OF THIS PROGRAM OR ANY OF ITS PARTS, IN SOURCE OR BINARY FORMS,
@@ -9,12 +9,19 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-import { ParentComponent, createContext, useContext } from "solid-js";
+import { ParentComponent, createContext, onMount, useContext } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 
 import enLocaleStrings from "./locales/en";
 
-export type LocalizationStrings = typeof enLocaleStrings;
+export type LocaleRecord = typeof enLocaleStrings;
+
+export type LocalizationStrings = {
+  // This allows for autocomplete for defaults, but also overriding
+  // https://twitter.com/mattpocockuk/status/1709281782325977101
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  [K in keyof LocaleRecord]: LocaleRecord[K] | (string & {});
+};
 
 const LocalizationContext = createContext<{
   t: LocalizationStrings;
@@ -23,9 +30,12 @@ const LocalizationContext = createContext<{
 
 export const LocalizationProvider: ParentComponent<{
   userStrings?: Partial<LocalizationStrings>;
+  // A hacky way to lift the `updateLocalizationStore` function out of the Context
+  setLocalizationRef: (fn: SetStoreFunction<LocalizationStrings>) => void;
 }> = (props) => {
   const [localizationStore, updateLocalizationStore] =
     createStore<LocalizationStrings>(
+      // we structure clone to avoid proxying to the original object
       structuredClone({
         ...enLocaleStrings,
         // we don't care on init
@@ -33,6 +43,10 @@ export const LocalizationProvider: ParentComponent<{
         ...props.userStrings,
       }),
     );
+
+  onMount(() => {
+    props.setLocalizationRef(updateLocalizationStore);
+  });
 
   const contextValue = {
     t: localizationStore,
@@ -49,7 +63,7 @@ export const LocalizationProvider: ParentComponent<{
 export function useLocalization() {
   const ctx = useContext(LocalizationContext);
   if (!ctx) {
-    throw new Error("LocalizationProvider not in scope.");
+    throw new Error("LocalizationContext.Provider not in scope.");
   }
   return ctx;
 }
