@@ -377,14 +377,14 @@ var createModule = (() => {
     var E,
       F,
       Na = {
-        60100: (a, b, c, d) => {
+        60092: (a, b, c, d) => {
           a = a ? I(x, a) : "";
           b = b ? I(x, b) : "";
           c = c ? I(x, c) : "";
           d = d ? I(x, d) : "";
           throw Error(a + b + c + d);
         },
-        60316: (a, b) => {
+        60308: (a, b) => {
           a = a ? I(x, a) : "";
           b = b ? I(x, b) : "";
           throw Error(a + b);
@@ -3801,8 +3801,8 @@ var createModule = (() => {
     k.dynCall_iiiiiijj = (a, b, c, d, e, f, g, m, l, n) =>
       (k.dynCall_iiiiiijj = Z.ua)(a, b, c, d, e, f, g, m, l, n);
     k.__ZN2MB2NN28LinearDefragmentingAllocator10Allocation4nullE = 1024;
-    k.___start_em_js = 60426;
-    k.___stop_em_js = 61299;
+    k.___start_em_js = 60418;
+    k.___stop_em_js = 61291;
     k.addRunDependency = Ea;
     k.removeRunDependency = Fa;
     k.FS_createPath = $b;

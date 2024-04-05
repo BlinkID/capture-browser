@@ -1,5 +1,11 @@
 # @microblink/capture
 
+## 1.2.1
+
+### Patch Changes
+
+- Version sync
+
 ## 1.2.0
 
 - Added configuration options for tilt, blur and glare tolerance.

@@ -2,7 +2,7 @@
   "name": "capture-worker",
   "description": "",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.2.1",
   "scripts": {
     "build": "concurrently pnpm:build:js pnpm:build:types",
     "build:dev": "concurrently pnpm:build:js-dev pnpm:build:types",

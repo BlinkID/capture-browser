@@ -1,5 +1,14 @@
 # capture-main
 
+## 1.2.1
+
+### Patch Changes
+
+- Version sync
+- Updated dependencies
+  - capture-wasm@1.2.1
+  - capture-worker@1.2.1
+
 ## 1.1.1
 
 ### Patch Changes
