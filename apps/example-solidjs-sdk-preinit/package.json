@@ -19,7 +19,7 @@
   "type": "module",
   "dependencies": {
     "@microblink/capture": "workspace:*",
-    "solid-js": "^1.8.1"
+    "solid-js": "^1.8.3"
   },
   "devDependencies": {
     "@mb/utils": "workspace:*",

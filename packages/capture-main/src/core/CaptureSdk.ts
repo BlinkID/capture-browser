@@ -277,6 +277,7 @@ class _CaptureSdk {
         zustandStore.setState({
           errorState: asError(error),
         });
+        // TODO: do we rethrow here?
         return;
       }
     }

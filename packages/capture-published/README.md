@@ -127,23 +127,27 @@ The SDK will terminate automatically if the video element is dismounted and requ
 
 ### Configuring the Capture SDK
 
-The SDK can be configured on initialization using `createCaptureSdk(settings)` . The configuration documentation can be found on [`CaptureSdkSettings`](/packages/capture-main/src/createCaptureSdk.ts#30).
+The SDK can be configured on initialization using `createCaptureSdk(settings)` . The configuration documentation can be found on [`CaptureSdkSettings`](/packages/capture-main/src/core/createCaptureSdk.ts#30).
 
 The capturing process is handled using the [`Analyzer`](/packages/capture-wasm/src/Analyzer.ts). The configuration settings for the `Analyzer` can be found on [`AnalyzerSettings`](/packages/capture-wasm/src/AnalyzerSettings.ts).
 
 ### Configuring the Capture UI
 
-`createCaptureUi` takes a [`CreateCaptureUiSettings`](/packages/capture-ui/src/createCaptureUi.tsx#52) configuration object as a parameter with both [`CaptureSdkSettings`](/packages/capture-main/src/createCaptureSdk.ts#30) that configures the SDK behaviour, and [`UiSettings`](/packages/capture-ui/src/StoreContext.tsx#36) which configures the UI itself.
+`createCaptureUi` takes a [`CreateCaptureUiSettings`](/packages/capture-main/src/ui/createCaptureUi.tsx#52) configuration object as a parameter with both [`CaptureSdkSettings`](/packages/capture-main/src/core/createCaptureSdk.ts#30) that configures the SDK behaviour, and [`UiSettings`](/packages/capture-main/src/ui/StoreContext.tsx#36) which configures the UI itself.
 
 You can configure the mount point of the UI, toggle the display of the onboarding screen and help screens, the error screen and provide your own localization strings.
 
-You can find a list of all the localization strings in [`packages/capture-ui/src/locales/en.ts`](/packages/capture-ui/src/locales/en.ts)
+You can find a list of all the localization strings in [`packages/capture-main/src/ui/locales/en.ts`](/packages/capture-main/src/ui/locales/en.ts)
 
 ## Advanced usage
 
+### Instantiating the Capture UI with a preloaded `CaptureSdk` instance
+
+In cases you want to reuse the `CaptureSdk` instance between component mounts/dismounts, preload it before showing the UI, or otherwise have greater control over the lifecycle of the SDK, you can use [`createCaptureUiWithInstance`](packages/capture-main/src/ui/createCaptureUi.tsx#67), which instead of SDK settings takes an instance of the `CaptureSdk`. You can see the usage in the `example-solidjs-sdk-preinit`.
+
 ### State management and subscriptions
 
-The Capture SDK tracks its internal state on the [`ReactiveStore`](/packages/capture-main/src/zustandStore.ts#8) object, which is implemented using [Zustand](https://github.com/pmndrs/zustand).
+The Capture SDK tracks its internal state on the [`ReactiveStore`](/packages/capture-main/src/core/zustandStore.ts#8) object, which is implemented using [Zustand](https://github.com/pmndrs/zustand).
 
 The user can get the internal state of the SDK at any time by calling `getState()` on the `CaptureSdk` object returned by `createCaptureSdk`. `CaptureSdk` is also available on the `CaptureComponent` instance returned by `createCaptureUi`.
 
@@ -151,13 +155,13 @@ You can also subscribe to state changes by calling `CaptureSdk.subscribe()`. Det
 
 ### UI customization
 
-The UI can be customized by either overriding the CSS variables found at `packages/capture-ui/src/root-styles.scss`, or by manually targetting the CSS classes applied to the UI component.
+The UI can be customized by either overriding the CSS variables found at `packages/capture-main/src/ui/root-styles.scss`, or by manually targetting the CSS classes applied to the UI component.
 
 All components rendered by the UI are nested under `.mb-style-scope` which provides some base styles.
 
 ### Detailed capturing process information
 
-You can find details on the internal state of the capture process using the [`onFrameAnalysis`](/packages/capture-main/src/createCaptureSdk.ts#57) callback. This callback will provide you with an `ImageData` instance of the previously processed frame and the [`FrameAnalysisResult`](/packages/capture-wasm/src/FrameAnalysisResult.ts).
+You can find details on the internal state of the capture process using the [`onFrameAnalysis`](/packages/capture-main/src/core/createCaptureSdk.ts#57) callback. This callback will provide you with an `ImageData` instance of the previously processed frame and the [`FrameAnalysisResult`](/packages/capture-wasm/src/FrameAnalysisResult.ts).
 
 ### Low-level access Direct API
 

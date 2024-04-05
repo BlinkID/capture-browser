@@ -23,8 +23,5 @@
       "persistent": true,
       "outputs": []
     }
-    // "deploy": {
-    //   "dependsOn": ["build", "test", "lint"]
-    // }
   }
 }
