@@ -1,5 +1,11 @@
 # @microblink/capture
 
+## 1.2.2
+
+### Patch Changes
+
+- Replace `AbortSignal.timeout` with `AbortController.abort`, as it [isn't supported on iOS 15](https://caniuse.com/mdn-api_abortsignal_timeout_static)
+
 ## 1.2.1
 
 ### Patch Changes

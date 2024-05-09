@@ -441,14 +441,14 @@ var createModule = (() => {
     var G,
       H,
       ab = {
-        62113: (a, b, c, d) => {
+        62105: (a, b, c, d) => {
           a = K(a);
           b = K(b);
           c = K(c);
           d = K(d);
           throw Error(a + b + c + d);
         },
-        62329: (a, b) => {
+        62321: (a, b) => {
           a = K(a);
           b = K(b);
           throw Error(a + b);
@@ -4192,8 +4192,8 @@ var createModule = (() => {
     D.dynCall_iiiiiijj = (a, b, c, d, e, f, g, l, m, n) =>
       (D.dynCall_iiiiiijj = Z.Qa)(a, b, c, d, e, f, g, l, m, n);
     D.__ZN2MB2NN28LinearDefragmentingAllocator10Allocation4nullE = 15072;
-    D.___start_em_js = 61120;
-    D.___stop_em_js = 62113;
+    D.___start_em_js = 61112;
+    D.___stop_em_js = 62105;
     D.addRunDependency = Sa;
     D.removeRunDependency = Ta;
     D.FS_createPath = Lc;
