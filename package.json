@@ -1,7 +1,7 @@
 {
   "name": "capture-sdk",
   "description": "",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "author": "",
   "scripts": {
     "build": "FORCE_COLOR=1 turbo build --no-daemon",
