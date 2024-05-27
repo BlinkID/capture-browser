@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://microblink.com/",
   "repository": "github:BlinkID/capture-browser",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "scripts": {
     "build": "pnpm run create-npm",
     "clean": "rimraf .turbo types dist publish-dir public *.tsbuildinfo",

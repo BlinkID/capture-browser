@@ -12,6 +12,13 @@
 import "rvfc-polyfill";
 import "./devUtils";
 
+import structuredClone from "@ungap/structured-clone";
+
+if (!("structuredClone" in globalThis)) {
+  // @ts-expect-error no idea
+  globalThis.structuredClone = structuredClone;
+}
+
 export { createCaptureSdk } from "./core/CaptureSdk";
 export { createDirectApi } from "./core/DirectApi";
 export {
