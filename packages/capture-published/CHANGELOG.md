@@ -1,5 +1,11 @@
 # @microblink/capture
 
+## 1.2.3
+
+### Patch Changes
+
+- Add polyfill for `structuredClone`
+
 ## 1.2.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # capture-main
 
+## 1.2.3
+
+### Patch Changes
+
+- capture-wasm@1.2.3
+- capture-worker@1.2.3
+
 ## 1.2.2
 
 ### Patch Changes

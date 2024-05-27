@@ -2,7 +2,7 @@
   "name": "capture-wasm",
   "description": "Wasm runtime",
   "private": true,
-  "version": "1.2.2",
+  "version": "1.2.3",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf .turbo types",
